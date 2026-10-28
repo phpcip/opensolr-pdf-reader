@@ -1,0 +1,22 @@
+<resources>
+    <string name="home_hint">どのアプリからでも PDF を開けます。ここで選ぶこともできます。</string>
+    <string name="open_pdf">PDF を開く</string>
+    <string name="err_open">この PDF は開けません。</string>
+    <string name="err_password">この PDF はパスワードで保護されています。</string>
+    <string name="share">共有</string>
+    <string name="copy">コピー</string>
+    <string name="copied">コピーしました</string>
+    <string name="select_page">ページ全体</string>
+    <string name="reading_text">テキストを読み取り中…</string>
+    <string name="no_text">このページにテキストはありません</string>
+    <string name="version">バージョン %1$s</string>
+    <string name="update_available">バージョン %1$s があります</string>
+    <string name="update_install">更新</string>
+    <string name="updating">更新中… %1$d%%</string>
+    <string name="update_allow">アップデートのインストールを許可してから、もう一度「更新」をタップしてください。</string>
+    <string name="update_failed">更新できませんでした。後でもう一度お試しください。</string>
+    <string name="up_to_date">最新です</string>
+    <string name="check_updates">アップデートを確認</string>
+    <string name="checking">確認中…</string>
+    <string name="back">戻る</string>
+</resources>

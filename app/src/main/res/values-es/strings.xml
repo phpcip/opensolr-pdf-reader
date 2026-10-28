@@ -1,0 +1,22 @@
+<resources>
+    <string name="home_hint">Abre un PDF desde cualquier app o elige uno aquí.</string>
+    <string name="open_pdf">Abrir un PDF</string>
+    <string name="err_open">Este PDF no se puede abrir.</string>
+    <string name="err_password">Este PDF está protegido con contraseña.</string>
+    <string name="share">Compartir</string>
+    <string name="copy">Copiar</string>
+    <string name="copied">Copiado</string>
+    <string name="select_page">Toda la página</string>
+    <string name="reading_text">Leyendo el texto…</string>
+    <string name="no_text">No hay texto en esta página</string>
+    <string name="version">Versión %1$s</string>
+    <string name="update_available">Ya está la versión %1$s</string>
+    <string name="update_install">Actualizar</string>
+    <string name="updating">Actualizando… %1$d%%</string>
+    <string name="update_allow">Permite instalar actualizaciones y vuelve a tocar Actualizar.</string>
+    <string name="update_failed">La actualización no se completó. Inténtalo más tarde.</string>
+    <string name="up_to_date">Al día</string>
+    <string name="check_updates">Buscar actualizaciones</string>
+    <string name="checking">Buscando…</string>
+    <string name="back">Atrás</string>
+</resources>

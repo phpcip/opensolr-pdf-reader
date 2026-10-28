@@ -1,0 +1,22 @@
+<resources>
+    <string name="home_hint">Deschide un PDF din orice aplicație sau alege unul aici.</string>
+    <string name="open_pdf">Deschide un PDF</string>
+    <string name="err_open">PDF-ul ăsta nu se poate deschide.</string>
+    <string name="err_password">PDF-ul ăsta e protejat cu parolă.</string>
+    <string name="share">Trimite</string>
+    <string name="copy">Copiază</string>
+    <string name="copied">Copiat</string>
+    <string name="select_page">Toată pagina</string>
+    <string name="reading_text">Citesc textul…</string>
+    <string name="no_text">Nu e text pe pagina asta</string>
+    <string name="version">Versiunea %1$s</string>
+    <string name="update_available">A apărut versiunea %1$s</string>
+    <string name="update_install">Actualizează</string>
+    <string name="updating">Se actualizează… %1$d%%</string>
+    <string name="update_allow">Permite instalarea actualizărilor, apoi apasă din nou Actualizează.</string>
+    <string name="update_failed">Actualizarea n-a mers. Încearcă mai târziu.</string>
+    <string name="up_to_date">E ultima versiune</string>
+    <string name="check_updates">Caută actualizări</string>
+    <string name="checking">Caut…</string>
+    <string name="back">Înapoi</string>
+</resources>

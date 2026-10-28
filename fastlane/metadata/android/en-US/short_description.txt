@@ -1,0 +1,1 @@
+A very simple PDF reader: full-screen pages, fast zoom, copy text, no network.

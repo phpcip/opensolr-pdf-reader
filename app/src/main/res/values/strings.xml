@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Opensolr PDF Reader</string>
+    <string name="home_hint">Open a PDF from any app, or pick one here.</string>
+    <string name="open_pdf">Open a PDF</string>
+    <string name="err_open">This PDF can\'t be opened.</string>
+    <string name="err_password">This PDF is protected with a password.</string>
+    <string name="page_of">%1$d / %2$d</string>
+    <string name="share">Share</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
+    <string name="select_page">Whole page</string>
+    <string name="reading_text">Reading the text…</string>
+    <string name="no_text">No text found on this page</string>
+    <string name="version">Version %1$s</string>
+    <string name="update_available">Version %1$s is out</string>
+    <string name="update_install">Update</string>
+    <string name="updating">Updating… %1$d%%</string>
+    <string name="update_allow">Allow installing updates, then tap Update again.</string>
+    <string name="update_failed">The update didn\'t go through. Try again later.</string>
+    <string name="up_to_date">Up to date</string>
+    <string name="check_updates">Check for updates</string>
+    <string name="checking">Checking…</string>
+    <string name="back">Back</string>
+</resources>

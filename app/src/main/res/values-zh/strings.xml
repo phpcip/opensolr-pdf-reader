@@ -1,0 +1,22 @@
+<resources>
+    <string name="home_hint">从任何应用打开 PDF，或在这里选择一个。</string>
+    <string name="open_pdf">打开 PDF</string>
+    <string name="err_open">无法打开此 PDF。</string>
+    <string name="err_password">此 PDF 受密码保护。</string>
+    <string name="share">分享</string>
+    <string name="copy">复制</string>
+    <string name="copied">已复制</string>
+    <string name="select_page">整页</string>
+    <string name="reading_text">正在读取文字…</string>
+    <string name="no_text">此页没有文字</string>
+    <string name="version">版本 %1$s</string>
+    <string name="update_available">版本 %1$s 已发布</string>
+    <string name="update_install">更新</string>
+    <string name="updating">正在更新… %1$d%%</string>
+    <string name="update_allow">允许安装更新，然后再次点按“更新”。</string>
+    <string name="update_failed">更新未完成，请稍后再试。</string>
+    <string name="up_to_date">已是最新版本</string>
+    <string name="check_updates">检查更新</string>
+    <string name="checking">正在检查…</string>
+    <string name="back">返回</string>
+</resources>
