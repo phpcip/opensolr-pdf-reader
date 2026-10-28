@@ -4,7 +4,7 @@ A very simple PDF reader. It opens a PDF and gets out of the way.
 • Pinch or double tap to zoom, drag and fling to move. A zoomed page is drawn again sharp.
 • Long press a word to select it, keep the finger down to select more, then Copy. Whole page selects the whole page.
 • Pages that are pictures (scans) get their text read on the phone when you long press them, only then and only that page.
-• Share: Add to Dropbox when the Dropbox app is installed, the three apps you share PDFs to most, and the system share sheet.
+• Share: Add to Dropbox when the Dropbox app is installed, the two apps you share PDFs to most, and the system share sheet.
 • Set it as your default PDF viewer: open a PDF, pick Opensolr PDF Reader, tap Always.
 
 No network permission. No account. No ads. No tracking. Your PDFs stay on your phone unless you share them.
