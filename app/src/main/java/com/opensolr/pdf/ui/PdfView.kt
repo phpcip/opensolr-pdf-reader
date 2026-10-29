@@ -707,6 +707,18 @@ class PdfView(context: Context) : View(context) {
         publishSelection()
     }
 
+    /** Jumps to the top of page [i] (0-based), at the zoom it is at. */
+    fun goToPage(i: Int) {
+        if (tops.isEmpty()) return
+        val p = i.coerceIn(0, tops.size - 1)
+        scroller.forceFinished(true)
+        animator?.cancel()
+        oy = tops[p] * scale
+        clamp()
+        invalidate()
+        scheduleDetails()
+    }
+
     fun clearSelection() {
         selStart = null
         selEnd = null

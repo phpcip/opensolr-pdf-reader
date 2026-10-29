@@ -1,0 +1,1 @@
+The page number and the file name show at the top with the controls. Tap the page number to jump to any page.
