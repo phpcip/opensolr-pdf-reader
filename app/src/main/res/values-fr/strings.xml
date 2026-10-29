@@ -19,4 +19,5 @@
     <string name="check_updates">Rechercher des mises à jour</string>
     <string name="checking">Recherche…</string>
     <string name="back">Retour</string>
+    <string name="go">Aller</string>
 </resources>

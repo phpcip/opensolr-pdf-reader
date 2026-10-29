@@ -19,4 +19,5 @@
     <string name="check_updates">アップデートを確認</string>
     <string name="checking">確認中…</string>
     <string name="back">戻る</string>
+    <string name="go">移動</string>
 </resources>

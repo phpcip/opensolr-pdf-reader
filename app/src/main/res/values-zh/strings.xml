@@ -19,4 +19,5 @@
     <string name="check_updates">检查更新</string>
     <string name="checking">正在检查…</string>
     <string name="back">返回</string>
+    <string name="go">跳转</string>
 </resources>

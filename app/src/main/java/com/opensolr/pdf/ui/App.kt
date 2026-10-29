@@ -230,35 +230,30 @@ private fun Viewer(activity: MainActivity, doc: PdfDoc) {
 
         if (chrome) {
             val topInset = max(WindowInsets.statusBars.asPaddingValues().calculateTopPadding(), 24.dp)
+            // back on the left, the file's name in the rest of the row, as long as the screen lets it
             Row(
-                Modifier.align(Alignment.TopStart).padding(start = 8.dp, top = topInset + 6.dp)
-                    .background(Band, RoundedCornerShape(2.dp)).border(1.dp, Line, RoundedCornerShape(2.dp))
-                    .clickable { Haptics.tap(view); activity.back() }
-                    .padding(start = 6.dp, end = 12.dp, top = 8.dp, bottom = 8.dp),
+                Modifier.align(Alignment.TopStart).fillMaxWidth().padding(start = 8.dp, end = 8.dp, top = topInset + 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Image(painterResource(R.drawable.ic_back), contentDescription = null, modifier = Modifier.size(22.dp))
-                Text(
-                    activity.caller ?: stringResource(R.string.back),
-                    fontFamily = Fonts.grotesk, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Accent,
-                    maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 200.dp),
-                )
-            }
-        }
-
-        // the page on screen and the file's name, discreet, at the top right; a tap on the number jumps to a page
-        if (chrome) {
-            val topInset = max(WindowInsets.statusBars.asPaddingValues().calculateTopPadding(), 24.dp)
-            Column(
-                Modifier.align(Alignment.TopEnd).padding(end = 8.dp, top = topInset + 6.dp).widthIn(max = 180.dp)
-                    .background(Band, RoundedCornerShape(2.dp)).border(1.dp, Line, RoundedCornerShape(2.dp))
-                    .padding(horizontal = 10.dp, vertical = 5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                PageJump(pageNow + 1, doc.pageCount) { n -> pdfView?.goToPage(n - 1) }
-                Text(
-                    activity.name, fontFamily = Fonts.grotesk, fontWeight = FontWeight.Medium, fontSize = 13.sp, color = Muted,
+                Row(
+                    Modifier.background(Band, RoundedCornerShape(2.dp)).border(1.dp, Line, RoundedCornerShape(2.dp))
+                        .clickable { Haptics.tap(view); activity.back() }
+                        .padding(start = 6.dp, end = 12.dp, top = 8.dp, bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Image(painterResource(R.drawable.ic_back), contentDescription = null, modifier = Modifier.size(22.dp))
+                    Text(
+                        activity.caller ?: stringResource(R.string.back),
+                        fontFamily = Fonts.grotesk, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Accent,
+                        maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 160.dp),
+                    )
+                }
+                if (activity.name.isNotEmpty()) Text(
+                    activity.name, fontFamily = Fonts.grotesk, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Ink,
                     maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false).background(Band, RoundedCornerShape(2.dp)).border(1.dp, Line, RoundedCornerShape(2.dp))
+                        .padding(horizontal = 12.dp, vertical = 9.dp),
                 )
             }
         }
@@ -270,11 +265,8 @@ private fun Viewer(activity: MainActivity, doc: PdfDoc) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(
-                        stringResource(R.string.page_of, pageNow + 1, doc.pageCount),
-                        fontFamily = Fonts.grotesk, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Ink,
-                        maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
-                    )
+                    // the page in a framed box: a tap on it to type a page and jump there
+                    Box(Modifier.weight(1f)) { PageJump(pageNow + 1, doc.pageCount) { n -> pdfView?.goToPage(n - 1) } }
                     // read from the right edge: Add to Dropbox, the two apps shared to most, then Share
                     IconButton(R.drawable.ic_share, stringResource(R.string.share)) { share(null) }
                     targets.top.reversed().forEach { t -> AppIcon(t) { share(t) } }
@@ -364,41 +356,43 @@ private fun Pill(text: String) {
 }
 
 /**
- * "3 / 6"; a tap turns it into a small box for a page number and Go (or the keyboard's Go / Enter), which
- * jumps there. Leaving the box without Go puts the number back.
+ * The page in a small framed box, "/ 6" after it: a tap on the box empties it, a new page and Go (the keyboard's
+ * Go, Enter, or the Go button shown while typing) jumps there. Leaving it puts the page back.
  */
 @Composable
 private fun PageJump(page: Int, count: Int, onGo: (Int) -> Unit) {
-    var editing by remember { mutableStateOf(false) }
-    var typed by remember { mutableStateOf(androidx.compose.ui.text.input.TextFieldValue("")) }
-    val focus = remember { androidx.compose.ui.focus.FocusRequester() }
+    var focused by remember { mutableStateOf(false) }
+    var typed by remember { mutableStateOf(androidx.compose.ui.text.input.TextFieldValue(page.toString())) }
     val keyboard = androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
-    val style = androidx.compose.ui.text.TextStyle(fontFamily = Fonts.grotesk, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Ink)
+    val focusManager = androidx.compose.ui.platform.LocalFocusManager.current
+    val style = androidx.compose.ui.text.TextStyle(fontFamily = Fonts.grotesk, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Ink)
+    LaunchedEffect(page) { if (!focused) typed = androidx.compose.ui.text.input.TextFieldValue(page.toString()) }
+    LaunchedEffect(focused) {
+        if (!focused) typed = androidx.compose.ui.text.input.TextFieldValue(page.toString())
+        // a tap empties the box for the new page, a frame later, after the tap has placed its cursor
+        else { androidx.compose.runtime.withFrameNanos { }; typed = androidx.compose.ui.text.input.TextFieldValue("") }
+    }
     fun go() {
         typed.text.toIntOrNull()?.let { onGo(it.coerceIn(1, count.coerceAtLeast(1))) }
         keyboard?.hide()
-        editing = false
+        focusManager.clearFocus(force = true)
     }
-    if (!editing) {
-        Text(
-            stringResource(R.string.page_of, page, count), style = style,
-            modifier = Modifier.clickable { val t = page.toString(); typed = androidx.compose.ui.text.input.TextFieldValue(t, androidx.compose.ui.text.TextRange(0, t.length)); editing = true },
-        )
-        return
-    }
-    LaunchedEffect(Unit) { runCatching { focus.requestFocus() } }
-    var had by remember { mutableStateOf(false) }
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         androidx.compose.foundation.text.BasicTextField(
             value = typed, onValueChange = { v -> typed = v.copy(text = v.text.filter { it.isDigit() }.take(5)) },
             singleLine = true, textStyle = style.copy(textAlign = TextAlign.Center), cursorBrush = androidx.compose.ui.graphics.SolidColor(Accent),
             keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number, imeAction = androidx.compose.ui.text.input.ImeAction.Go),
             keyboardActions = androidx.compose.foundation.text.KeyboardActions(onGo = { go() }),
-            modifier = Modifier.width(48.dp).background(Paper, RoundedCornerShape(2.dp)).border(1.dp, Line, RoundedCornerShape(2.dp)).padding(horizontal = 4.dp, vertical = 2.dp)
+            modifier = Modifier.width(56.dp).background(Paper, RoundedCornerShape(2.dp)).border(1.dp, if (focused) Accent else Muted, RoundedCornerShape(2.dp))
+                .padding(horizontal = 6.dp, vertical = 8.dp)
                 .onPreviewKeyEvent { e -> if (e.key == Key.Enter || e.key == Key.NumPadEnter) { if (e.type == KeyEventType.KeyUp) go(); true } else false }
-                .focusRequester(focus).onFocusChanged { if (it.isFocused) had = true else if (had) editing = false },
+                .onFocusChanged {
+                    focused = it.isFocused
+                },
         )
         Text("/ $count", style = style)
-        Box(Modifier.border(1.dp, Ink, RoundedCornerShape(2.dp)).clickable { go() }.padding(horizontal = 8.dp, vertical = 2.dp)) { Text("Go", style = style) }
+        if (focused) Box(Modifier.background(Accent, RoundedCornerShape(2.dp)).clickable { go() }.padding(horizontal = 12.dp, vertical = 8.dp)) {
+            Text(stringResource(R.string.go), style = style.copy(color = Paper))
+        }
     }
 }
