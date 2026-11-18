@@ -267,7 +267,8 @@ private fun Viewer(activity: MainActivity, doc: PdfDoc) {
                 ) {
                     // the page in a framed box: a tap on it to type a page and jump there
                     Box(Modifier.weight(1f)) { PageJump(pageNow + 1, doc.pageCount) { n -> pdfView?.goToPage(n - 1) } }
-                    // read from the right edge: Add to Dropbox, the two apps shared to most, then Share
+                    // read from the right edge: Add to Dropbox, the two apps shared to most, Share, then Print
+                    IconButton(R.drawable.ic_print, stringResource(R.string.print)) { Haptics.tap(view); activity.print() }
                     IconButton(R.drawable.ic_share, stringResource(R.string.share)) { share(null) }
                     targets.top.reversed().forEach { t -> AppIcon(t) { share(t) } }
                     targets.dropbox?.let { t -> AppIcon(t) { share(t) } }

@@ -4,6 +4,7 @@
     <string name="err_open">Ce PDF ne peut pas être ouvert.</string>
     <string name="err_password">Ce PDF est protégé par un mot de passe.</string>
     <string name="share">Partager</string>
+    <string name="print">Imprimer</string>
     <string name="copy">Copier</string>
     <string name="copied">Copié</string>
     <string name="select_page">Toute la page</string>

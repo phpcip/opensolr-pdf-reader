@@ -4,6 +4,7 @@
     <string name="err_open">无法打开此 PDF。</string>
     <string name="err_password">此 PDF 受密码保护。</string>
     <string name="share">分享</string>
+    <string name="print">打印</string>
     <string name="copy">复制</string>
     <string name="copied">已复制</string>
     <string name="select_page">整页</string>

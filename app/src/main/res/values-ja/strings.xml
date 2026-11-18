@@ -4,6 +4,7 @@
     <string name="err_open">この PDF は開けません。</string>
     <string name="err_password">この PDF はパスワードで保護されています。</string>
     <string name="share">共有</string>
+    <string name="print">印刷</string>
     <string name="copy">コピー</string>
     <string name="copied">コピーしました</string>
     <string name="select_page">ページ全体</string>

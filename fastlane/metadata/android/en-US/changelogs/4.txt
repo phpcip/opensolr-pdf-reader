@@ -1,0 +1,1 @@
+A Print button in the bottom bar, next to Share: the PDF goes to the system print screen as it is.

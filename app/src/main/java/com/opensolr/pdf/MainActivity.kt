@@ -4,6 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.CancellationSignal
+import android.os.ParcelFileDescriptor
+import android.print.PageRange
+import android.print.PrintAttributes
+import android.print.PrintDocumentAdapter
+import android.print.PrintDocumentInfo
+import android.print.PrintManager
 import android.provider.OpenableColumns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : ComponentActivity() {
 
@@ -137,6 +145,48 @@ class MainActivity : ComponentActivity() {
         } catch (e: Exception) {
             null
         }
+    }
+
+    /** The system's print screen for the PDF as it is: the file itself goes to the printer, page for page. */
+    fun print() {
+        val source = uri ?: return
+        val pages = doc?.pageCount ?: return
+        val title = name.ifBlank { "document.pdf" }
+        val manager = getSystemService(PRINT_SERVICE) as? PrintManager ?: return
+        manager.print(title, object : PrintDocumentAdapter() {
+            override fun onLayout(old: PrintAttributes?, new: PrintAttributes?, signal: CancellationSignal?, callback: LayoutResultCallback, extras: Bundle?) {
+                if (signal?.isCanceled == true) { callback.onLayoutCancelled(); return }
+                val info = PrintDocumentInfo.Builder(title).setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).setPageCount(pages).build()
+                callback.onLayoutFinished(info, old != new)
+            }
+
+            override fun onWrite(ranges: Array<out PageRange>?, destination: ParcelFileDescriptor, signal: CancellationSignal?, callback: WriteResultCallback) {
+                lifecycleScope.launch {
+                    val written = withContext(Dispatchers.IO) {
+                        try {
+                            contentResolver.openInputStream(source)?.use { input ->
+                                FileOutputStream(destination.fileDescriptor).use { out ->
+                                    val buffer = ByteArray(64 * 1024)
+                                    while (signal?.isCanceled != true) {
+                                        val n = input.read(buffer)
+                                        if (n < 0) break
+                                        out.write(buffer, 0, n)
+                                    }
+                                }
+                                true
+                            } ?: false
+                        } catch (e: Exception) {
+                            false
+                        }
+                    }
+                    when {
+                        signal?.isCanceled == true -> callback.onWriteCancelled()
+                        written -> callback.onWriteFinished(arrayOf(PageRange.ALL_PAGES))
+                        else -> callback.onWriteFailed(null)
+                    }
+                }
+            }
+        }, null)
     }
 
     // ---------------- updates ----------------

@@ -4,6 +4,7 @@
     <string name="err_open">PDF-ul ăsta nu se poate deschide.</string>
     <string name="err_password">PDF-ul ăsta e protejat cu parolă.</string>
     <string name="share">Trimite</string>
+    <string name="print">Printează</string>
     <string name="copy">Copiază</string>
     <string name="copied">Copiat</string>
     <string name="select_page">Toată pagina</string>
