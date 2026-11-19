@@ -1,0 +1,1 @@
+Opens PDFs that other apps send without a type or as a generic file, recognised by their name, so it can be the default for every PDF.
